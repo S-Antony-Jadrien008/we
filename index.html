@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduVerse – An Inclusive, Adaptive and Interactive Smart Learning Ecosystem featuring 7 connected modules.">
+  <meta name="theme-color" content="#0F172A">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>EduVerse — Smart Learning Ecosystem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header Navigation -->
+  <header class="site-header" role="banner">
+    <div class="nav-container">
+      <a href="#dashboard" class="brand-wrapper" data-nav-target="dashboard" aria-label="EduVerse Home">
+        <div class="brand-logo-icon" aria-hidden="true">EV</div>
+        <div class="brand-title-wrap">
+          <h1 class="brand-title">Edu<span>Verse</span></h1>
+          <p class="brand-tagline">Smart Learning Ecosystem</p>
+        </div>
+      </a>
+
+      <!-- Module Navigation Pills (SPA Router) -->
+      <nav class="nav-links-pills" aria-label="Module Quick Switcher">
+        <button type="button" class="nav-pill-btn active" data-nav-target="dashboard">Dashboard</button>
+        <button type="button" class="nav-pill-btn" data-nav-target="mindshift">1. MindShift</button>
+        <button type="button" class="nav-pill-btn" data-nav-target="whatif">2. WhatIf Lab</button>
+        <button type="button" class="nav-pill-btn" data-nav-target="errordna">3. ErrorDNA</button>
+        <button type="button" class="nav-pill-btn" data-nav-target="boardbridge">4. BoardBridge</button>
+        <button type="button" class="nav-pill-btn" data-nav-target="silentsignal">5. SilentSignal</button>
+        <button type="button" class="nav-pill-btn" data-nav-target="zeronet">6. ZeroNet</button>
+        <button type="button" class="nav-pill-btn" data-nav-target="escape">7. Escape2Learn</button>
+      </nav>
+
+      <!-- Accessibility & Quick Controls -->
+      <nav class="nav-controls" aria-label="Quick Controls and Accessibility">
+        <!-- Live Offline/Online indicator -->
+        <div id="connectivity-indicator" class="connectivity-pill" role="status" aria-live="polite">
+          <span class="connectivity-dot" aria-hidden="true"></span>
+          <span id="connectivity-text">Online</span>
+        </div>
+
+        <!-- Font sizing controls -->
+        <div class="control-btn-group" role="group" aria-label="Adjust font size">
+          <button type="button" class="control-btn" data-font-size="small" aria-label="Small font size">A-</button>
+          <button type="button" class="control-btn active" data-font-size="normal" aria-label="Default font size">A</button>
+          <button type="button" class="control-btn" data-font-size="large" aria-label="Large font size">A+</button>
+        </div>
+
+        <!-- High-Contrast Toggle -->
+        <button type="button" class="control-btn" data-toggle-contrast aria-pressed="false" title="Toggle High Contrast Mode">
+          <span aria-hidden="true">◐</span> Contrast
+        </button>
+
+        <!-- User Authentication & Profile Pill -->
+        <div id="auth-header-wrapper" style="display: flex; align-items: center; gap: 0.5rem;">
+          <button type="button" class="btn btn-primary btn-sm" id="btn-open-auth" aria-haspopup="dialog">
+            <span aria-hidden="true">👤</span> Sign In
+          </button>
+          <div id="user-profile-badge" class="user-profile-pill" style="display: none;">
+            <span class="user-avatar-circle" id="user-avatar-initial" aria-hidden="true">S</span>
+            <span id="user-display-name">Scholar</span>
+            <button type="button" class="control-btn btn-sm" id="btn-logout" title="Sign out" style="padding: 2px 6px; font-size: 0.75rem;">✕</button>
+          </div>
+        </div>
+
+        <!-- Reset Progress Trigger -->
+        <button type="button" class="btn btn-danger btn-sm" id="btn-open-reset" aria-haspopup="dialog">
+          Reset
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container (SPA Views) -->
+  <main id="main-content" class="main-content container" role="main">
+
+    <!-- =========================================================================
+         VIEW 0: MAIN DASHBOARD
+         ========================================================================= -->
+    <div id="view-dashboard" class="app-view active" role="region" aria-label="Ecosystem Dashboard">
+      <!-- Hero Banner -->
+      <section class="hero-section" aria-labelledby="hero-heading">
+        <div class="hero-tag">
+          <span aria-hidden="true">★</span> Hackathon Showcase Edition • Unified Single-Link Ecosystem
+        </div>
+        <h2 id="hero-heading" class="hero-title">An Inclusive, Adaptive &amp; Interactive Smart Learning Ecosystem</h2>
+        <p class="hero-description">
+          EduVerse seamlessly integrates adaptive lessons, real-world crash dilemmas, algorithmic mistake analysis, accessible study notes, anonymous doubts, verified offline resources, and gamified escape challenges into one continuous learning journey.
+        </p>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary btn-lg" data-nav-target="mindshift">
+            Start Learning Journey <span aria-hidden="true">→</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-lg" id="btn-jump-modules">
+            Explore All 7 Modules
+          </button>
+          <button type="button" class="btn btn-outline" id="btn-toggle-judge-tour">
+            <span aria-hidden="true">📋</span> 3-Minute Hackathon Demo Sequence
+          </button>
+        </div>
+      </section>
+
+      <!-- Hackathon Demo Sequence Guide (Collapsible) -->
+      <section id="judge-tour-card" class="offline-demo-guide" style="display: none; margin-bottom: 2.5rem;" aria-labelledby="judge-tour-heading">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <h3 id="judge-tour-heading" style="color: var(--teal-300); margin: 0;">Judges &amp; Evaluators: 3-Minute Connected Journey Flow</h3>
+          <button type="button" class="control-btn" id="btn-close-judge-tour" aria-label="Close walkthrough">✕ Close</button>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Follow this curated sequence to demonstrate how learning data flows across the entire ecosystem without isolated silos:
+        </p>
+        <div class="offline-steps-list">
+          <div class="offline-step-card">
+            <div class="offline-step-num">1</div>
+            <strong style="display: block; color: #FFF; margin-bottom: 0.25rem;">MindShift</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Toggle Simple vs Detailed views, test Text-to-Speech audio readout.</span>
+          </div>
+          <div class="offline-step-card">
+            <div class="offline-step-num">2</div>
+            <strong style="display: block; color: #FFF; margin-bottom: 0.25rem;">WhatIf Lab</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Solve realistic bank crash and concurrency race condition scenarios.</span>
+          </div>
+          <div class="offline-step-card">
+            <div class="offline-step-num">3</div>
+            <strong style="display: block; color: #FFF; margin-bottom: 0.25rem;">ErrorDNA</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Take 9-Q assessment. Notice how &lt;60% accuracy triggers targeted recommendations.</span>
+          </div>
+          <div class="offline-step-card">
+            <div class="offline-step-num">4</div>
+            <strong style="display: block; color: #FFF; margin-bottom: 0.25rem;">BoardBridge</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Directly deep-links to recommended note with audio reader and search.</span>
+          </div>
+          <div class="offline-step-card">
+            <div class="offline-step-num">5</div>
+            <strong style="display: block; color: #FFF; margin-bottom: 0.25rem;">ZeroNet &amp; Escape</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Test offline CacheStorage vault &amp; unlock progressive escape room chambers.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Student Progress Dashboard Section -->
+      <section class="progress-section" aria-labelledby="progress-heading">
+        <div class="progress-header">
+          <div class="progress-title-wrap">
+            <h2 id="progress-heading">Your Shared Learning Progress</h2>
+            <p>Real-time metrics synchronized seamlessly across all seven EduVerse modules.</p>
+          </div>
+          <span class="badge badge-teal" id="overall-badge">Active Session</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Modules Engaged</span>
+            <span class="stat-value" id="stat-modules-count">0 / 7</span>
+            <span class="stat-meta" id="stat-modules-pct">0% Complete</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">WhatIf Lab Score</span>
+            <span class="stat-value" id="stat-whatif-score">0 / 3</span>
+            <span class="stat-meta" id="stat-whatif-meta">Scenarios resolved</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">ErrorDNA Diagnostic</span>
+            <span class="stat-value" id="stat-errordna-score">0 / 9</span>
+            <span class="stat-meta" id="stat-errordna-meta">Questions evaluated</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Escape2Learn Status</span>
+            <span class="stat-value" id="stat-escape-level">Level 1</span>
+            <span class="stat-meta" id="stat-escape-meta">Schema Vault</span>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary);">
+            <span>Overall Ecosystem Completion</span>
+            <strong id="progress-percent-label">0%</strong>
+          </div>
+          <div class="progress-bar-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-element" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Adaptive Journey Pipeline -->
+        <div class="journey-flow-box">
+          <div class="journey-flow-title">
+            <span aria-hidden="true">⚡</span> Adaptive Journey Pipeline
+          </div>
+          <nav class="journey-steps" aria-label="Learning Journey Pipeline">
+            <button type="button" class="journey-step" data-nav-target="mindshift">
+              <span>1. MindShift</span>
+              <span class="badge badge-not-started" id="j-badge-mindshift">Start</span>
+            </button>
+            <span class="journey-arrow" aria-hidden="true">→</span>
+            <button type="button" class="journey-step" data-nav-target="whatif">
+              <span>2. WhatIf Lab</span>
+              <span class="badge badge-not-started" id="j-badge-whatif">Pending</span>
+            </button>
+            <span class="journey-arrow" aria-hidden="true">→</span>
+            <button type="button" class="journey-step" data-nav-target="errordna">
+              <span>3. ErrorDNA</span>
+              <span class="badge badge-not-started" id="j-badge-errordna">Pending</span>
+            </button>
+            <span class="journey-arrow" aria-hidden="true">→</span>
+            <button type="button" class="journey-step" data-nav-target="boardbridge">
+              <span>4. BoardBridge</span>
+              <span class="badge badge-not-started" id="j-badge-boardbridge">Pending</span>
+            </button>
+            <span class="journey-arrow" aria-hidden="true">→</span>
+            <button type="button" class="journey-step" data-nav-target="escape">
+              <span>5. Escape2Learn</span>
+              <span class="badge badge-not-started" id="j-badge-escape2learn">Pending</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Dynamic Recommendation Callout -->
+        <div id="dynamic-recommendation-box" class="recommendation-banner" style="display: none;">
+          <div>
+            <strong id="rec-title" style="color: #FFFFFF; font-size: 0.95rem; display: block;">Personalized Recommendation Ready</strong>
+            <span id="rec-desc" style="font-size: 0.88rem; color: var(--text-secondary);">ErrorDNA detected topics requiring revision.</span>
+          </div>
+          <div id="rec-actions"></div>
+        </div>
+      </section>
+
+      <!-- Seven Module Cards Grid -->
+      <section id="ecosystem-modules" aria-labelledby="modules-heading">
+        <div style="margin-bottom: 1.5rem;">
+          <h2 id="modules-heading">Seven Integrated Modules</h2>
+          <p>Explore any module directly or follow the guided adaptive journey.</p>
+        </div>
+
+        <div class="modules-grid">
+          <article class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon-wrap" aria-hidden="true">🧠</div>
+              <span class="badge badge-not-started" id="badge-mod-mindshift">Not Started</span>
+            </div>
+            <span class="module-card-subtitle">Module 01 • Adaptive Learning</span>
+            <h3 class="module-card-title">MindShift</h3>
+            <p class="module-card-desc">
+              Understand DBMS normalization through dual explanation styles: real-world analogies vs formal functional dependency schemas with speech synthesis.
+            </p>
+            <div class="module-card-footer">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Topic: DBMS Normalization</span>
+              <button type="button" class="btn btn-primary btn-sm" data-nav-target="mindshift">Open MindShift</button>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon-wrap" aria-hidden="true">🧪</div>
+              <span class="badge badge-not-started" id="badge-mod-whatif">Not Started</span>
+            </div>
+            <span class="module-card-subtitle">Module 02 • Real-World Scenarios</span>
+            <h3 class="module-card-title">WhatIf Lab</h3>
+            <p class="module-card-desc">
+              Apply database theory to realistic production incidents: midnight transfer power failures, concurrent seat booking clashes, and unindexed query slowdowns.
+            </p>
+            <div class="module-card-footer">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">3 Scenarios • ACID &amp; Locks</span>
+              <button type="button" class="btn btn-primary btn-sm" data-nav-target="whatif">Open WhatIf Lab</button>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon-wrap" aria-hidden="true">🧬</div>
+              <span class="badge badge-not-started" id="badge-mod-errordna">Not Started</span>
+            </div>
+            <span class="module-card-subtitle">Module 03 • Mistake Analysis</span>
+            <h3 class="module-card-title">ErrorDNA</h3>
+            <p class="module-card-desc">
+              Uncover exact knowledge gaps via a 9-question diagnostic across DBMS, Java, and Networking. Calculates topic accuracy and guides next revision steps.
+            </p>
+            <div class="module-card-footer">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Diagnostics &amp; Recommendations</span>
+              <button type="button" class="btn btn-primary btn-sm" data-nav-target="errordna">Open ErrorDNA</button>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon-wrap" aria-hidden="true">📖</div>
+              <span class="badge badge-not-started" id="badge-mod-boardbridge">Not Started</span>
+            </div>
+            <span class="module-card-subtitle">Module 04 • Revision Notes</span>
+            <h3 class="module-card-title">BoardBridge</h3>
+            <p class="module-card-desc">
+              Structured, high-yield study notes with live search, keyword filters, and speech synthesis. ErrorDNA recommendations deep-link directly into notes.
+            </p>
+            <div class="module-card-footer">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">DBMS, Java &amp; Networking</span>
+              <button type="button" class="btn btn-primary btn-sm" data-nav-target="boardbridge">Open BoardBridge</button>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon-wrap" aria-hidden="true">📡</div>
+              <span class="badge badge-not-started" id="badge-mod-silentsignal">0 Doubts</span>
+            </div>
+            <span class="module-card-subtitle">Module 05 • Anonymous Feedback</span>
+            <h3 class="module-card-title">SilentSignal</h3>
+            <p class="module-card-desc">
+              Low-pressure reporting for doubts, accessibility needs, and conceptual roadblocks. Never collects student names, IDs, emails, or personal data.
+            </p>
+            <div class="module-card-footer">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">100% Anonymous • Local Demo</span>
+              <button type="button" class="btn btn-primary btn-sm" data-nav-target="silentsignal">Open SilentSignal</button>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon-wrap" aria-hidden="true">⚡</div>
+              <span class="badge badge-not-started" id="badge-mod-zeronet">Online</span>
+            </div>
+            <span class="module-card-subtitle">Module 06 • Offline Learning</span>
+            <h3 class="module-card-title">ZeroNet Scholar</h3>
+            <p class="module-card-desc">
+              Uninterrupted study without internet. Verified Service Worker CacheStorage allows saving and reading cheat sheets during network disconnects.
+            </p>
+            <div class="module-card-footer">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">CacheStorage &amp; ServiceWorker</span>
+              <button type="button" class="btn btn-primary btn-sm" data-nav-target="zeronet">Open ZeroNet</button>
+            </div>
+          </article>
+
+          <article class="module-card">
+            <div class="module-card-header">
+              <div class="module-icon-wrap" aria-hidden="true">🎮</div>
+              <span class="badge badge-not-started" id="badge-mod-escape">Level 1 Open</span>
+            </div>
+            <span class="module-card-subtitle">Module 07 • Gamified Learning</span>
+            <h3 class="module-card-title">Escape2Learn</h3>
+            <p class="module-card-desc">
+              Progressive 3-level DBMS escape room. Crack Schema keys, Concurrency 2PL locks, and B+ Tree Query plans. Unlock levels by achieving passing scores!
+            </p>
+            <div class="module-card-footer">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Progressive 3-Level Challenge</span>
+              <button type="button" class="btn btn-primary btn-sm" data-nav-target="escape">Open Escape2Learn</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- MySQL Database Integration Hub Section -->
+      <section class="progress-section" style="margin-top: 1rem;" aria-labelledby="db-hub-heading">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <span class="badge badge-teal" style="margin-bottom: 0.25rem;">Backend &amp; Persistence</span>
+            <h3 id="db-hub-heading" style="color: #FFFFFF; margin: 0; font-size: 1.25rem;">MySQL Relational Database Hub</h3>
+          </div>
+          <div id="db-status-badge" class="badge badge-completed">
+            ● Database Engine: Connected (eduverse_db)
+          </div>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Student authentication and learning progress are modeled across 4 normalized relational tables in MySQL (<code>users</code>, <code>user_learning_progress</code>, <code>anonymous_feedback</code>, <code>escape_room_logs</code>) with Foreign Key constraints and B-Tree indexing.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+            <strong style="color: var(--teal-300); display: block; font-size: 0.85rem; text-transform: uppercase;">Table: users</strong>
+            <span style="font-size: 1.2rem; font-weight: 800; color: #FFF;" id="db-stat-users">2 Seed Accounts</span>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Indexed by UNIQUE email, SHA-256 password hash</p>
+          </div>
+          <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+            <strong style="color: var(--accent-sky); display: block; font-size: 0.85rem; text-transform: uppercase;">Table: user_learning_progress</strong>
+            <span style="font-size: 1.2rem; font-weight: 800; color: #FFF;">7 Module Metrics</span>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Foreign key ON DELETE CASCADE to user_id</p>
+          </div>
+          <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+            <strong style="color: var(--accent-emerald); display: block; font-size: 0.85rem; text-transform: uppercase;">Table: anonymous_feedback</strong>
+            <span style="font-size: 1.2rem; font-weight: 800; color: #FFF;">SilentSignal Feed</span>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Zero-PII anonymous submissions</p>
+          </div>
+        </div>
+
+        <div>
+          <button type="button" class="btn btn-outline btn-sm" id="btn-toggle-sql-viewer">
+            📄 View MySQL schema.sql Script
+          </button>
+          <div id="sql-schema-viewer" class="schema-viewer-box" style="display: none; margin-top: 1rem;">
+            <pre><code>-- MySQL Database: eduverse_db
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(120) NOT NULL,
+    email VARCHAR(180) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('student', 'educator', 'evaluator') DEFAULT 'student',
+    streak_days INT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user_learning_progress (
+    progress_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    mindshift_completed BOOLEAN DEFAULT FALSE,
+    whatif_score INT DEFAULT 0,
+    errordna_score INT DEFAULT 0,
+    escape_unlocked_level INT DEFAULT 1,
+    overall_percentage INT DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);</code></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 1: MINDSHIFT (ADAPTIVE LEARNING)
+         ========================================================================= -->
+    <div id="view-mindshift" class="app-view" role="region" aria-label="MindShift Adaptive Learning">
+      <section class="page-header">
+        <nav class="breadcrumb-nav">
+          <button type="button" class="control-btn" data-nav-target="dashboard">← Back to Dashboard</button>
+          <span aria-hidden="true">/</span>
+          <span style="color: var(--teal-300);">Module 01: MindShift</span>
+        </nav>
+        <div class="page-title-row">
+          <div class="page-title-group">
+            <h1>MindShift: Adaptive Learning</h1>
+            <p>Topic: Database Normalization (1NF, 2NF, 3NF &amp; BCNF). Switch explanation formats to fit your learning preference.</p>
+          </div>
+          <div class="page-controls">
+            <div class="audio-control-bar" role="region" aria-label="Speech controls">
+              <button type="button" class="btn btn-primary btn-sm" id="btn-read-aloud">
+                <span aria-hidden="true">🔊</span> Read Aloud
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-stop-reading" disabled>
+                <span aria-hidden="true">⏹</span> Stop
+              </button>
+              <span id="speech-status" class="speech-status-indicator" role="status" aria-live="polite">Ready</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Explanation Switcher -->
+      <div class="mindshift-mode-switch" role="tablist">
+        <button type="button" class="mode-tab-btn active" id="tab-simple" role="tab" aria-selected="true">
+          <span aria-hidden="true">💡</span> Simple Explanation (Everyday Analogies &amp; Visuals)
+        </button>
+        <button type="button" class="mode-tab-btn" id="tab-detailed" role="tab" aria-selected="false">
+          <span aria-hidden="true">📐</span> Detailed Explanation (Formal Schemas &amp; Functional Dependencies)
+        </button>
+      </div>
+
+      <!-- Panel: Simple View -->
+      <article id="panel-simple" class="lesson-content-card" role="tabpanel">
+        <h2 style="color: var(--teal-300); margin-bottom: 1rem;">Simple View: Organizing a Cluttered Closet</h2>
+        <div class="analogy-box">
+          <strong>The Everyday Analogy:</strong> Storing customer info, product details, and orders in one giant table is like stuffing socks, winter coats, and half-eaten food into one drawer. Normalization simply assigns clean, specialized drawers (tables) so every fact is stored in exactly <strong>one place</strong>.
+        </div>
+        <h3>Three Major Anomalies Prevented:</h3>
+        <ul style="padding-left: 1.5rem; margin-bottom: 1.25rem; color: var(--text-secondary); line-height: 1.8;">
+          <li><strong>Insertion Anomaly:</strong> You cannot add a course until at least one student registers.</li>
+          <li><strong>Deletion Anomaly:</strong> Removing the last student enrolled in Astronomy accidentally wipes the course definition from the database.</li>
+          <li><strong>Update Anomaly:</strong> Changing an instructor's email requires updating 500 rows; missing one causes data contradictions.</li>
+        </ul>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin: 1.5rem 0;">
+          <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <h4 style="color: var(--accent-sky); margin-bottom: 0.5rem;">1st Normal Form (1NF)</h4>
+            <strong style="color: #FFF; display: block; font-size: 0.9rem; margin-bottom: 0.25rem;">"One item per cell"</strong>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--text-secondary);">No comma-separated lists. Every cell contains atomic, indivisible values.</p>
+          </div>
+          <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <h4 style="color: var(--teal-300); margin-bottom: 0.5rem;">2nd Normal Form (2NF)</h4>
+            <strong style="color: #FFF; display: block; font-size: 0.9rem; margin-bottom: 0.25rem;">"Whole key dependency"</strong>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--text-secondary);">In 1NF with no partial dependencies on composite candidate keys.</p>
+          </div>
+          <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <h4 style="color: var(--accent-emerald); margin-bottom: 0.5rem;">3rd Normal Form (3NF)</h4>
+            <strong style="color: #FFF; display: block; font-size: 0.9rem; margin-bottom: 0.25rem;">"No middle-man dependencies"</strong>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--text-secondary);">In 2NF with no transitive dependencies between non-key attributes.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Panel: Detailed View -->
+      <article id="panel-detailed" class="lesson-content-card" role="tabpanel" style="display: none;">
+        <h2 style="color: var(--teal-300); margin-bottom: 1rem;">Detailed View: Functional Dependencies &amp; Formal Decomposition</h2>
+        <p>Normalization decomposes relational schema \( R \) to eliminate redundancy while preserving functional dependencies and achieving lossless join decomposition.</p>
+        <pre class="code-block"><code>Functional Dependency Constraint:
+X -> Y: IF t1[X] = t2[X] THEN t1[Y] = t2[Y]
+
+3NF Definition:
+For every non-trivial FD X -> Y:
+Either X is a superkey OR Y is a prime attribute.
+
+BCNF Definition:
+For every non-trivial FD X -> Y: X must strictly be a superkey.</code></pre>
+      </article>
+
+      <!-- Bottom Navigation -->
+      <div class="progress-section" style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <strong style="color: #FFFFFF; display: block;">Lesson Completed?</strong>
+          <span style="font-size: 0.88rem; color: var(--text-secondary);">Put theory into action against database production crash incidents.</span>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" class="btn btn-secondary" data-nav-target="dashboard">← Dashboard</button>
+          <button type="button" class="btn btn-primary" data-nav-target="whatif" id="btn-start-practice">Start Practice in WhatIf Lab →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 2: WHATIF LAB (REAL-WORLD SCENARIOS)
+         ========================================================================= -->
+    <div id="view-whatif" class="app-view" role="region" aria-label="WhatIf Lab Scenarios">
+      <section class="page-header">
+        <nav class="breadcrumb-nav">
+          <button type="button" class="control-btn" data-nav-target="dashboard">← Back to Dashboard</button>
+          <span aria-hidden="true">/</span>
+          <span style="color: var(--teal-300);">Module 02: WhatIf Lab</span>
+        </nav>
+        <div class="page-title-row">
+          <div class="page-title-group">
+            <h1>WhatIf Lab: Real-World Scenario Learning</h1>
+            <p>Diagnose and resolve realistic database production incidents through engineering principles.</p>
+          </div>
+          <div class="page-controls">
+            <span class="badge badge-teal" id="live-score-badge" style="font-size: 0.95rem; padding: 0.45rem 0.95rem;">Score: 0 / 3</span>
+          </div>
+        </div>
+      </section>
+
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem;">
+          <span id="scenario-step-indicator">Scenario 1 of 3</span>
+          <span id="scenario-progress-pct">33%</span>
+        </div>
+        <div class="progress-bar-track" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" id="scenario-progressbar">
+          <div class="progress-bar-fill" id="scenario-progressbar-fill" style="width: 33%;"></div>
+        </div>
+      </div>
+
+      <!-- Interactive Scenario Card -->
+      <section id="scenario-interactive-card" class="scenario-card">
+        <div class="scenario-header-row">
+          <div>
+            <span class="badge badge-teal" id="scenario-category-badge">Transaction Failure</span>
+            <h2 id="scenario-title" style="margin-top: 0.4rem; color: #FFFFFF;">The Midnight Wire Transfer Crash</h2>
+          </div>
+          <span style="font-size: 0.85rem; color: var(--text-muted);" id="scenario-id-tag">Case #101</span>
+        </div>
+
+        <div class="scenario-context-box">
+          <h3 class="scenario-context-title">Incident Report:</h3>
+          <p id="scenario-narrative" style="margin: 0; color: var(--text-primary); font-size: 1.02rem; line-height: 1.6;"></p>
+        </div>
+
+        <fieldset style="border: none; padding: 0; margin: 0;">
+          <legend id="scenario-prompt" style="font-size: 1.05rem; font-weight: 700; color: var(--teal-300); margin-bottom: 1rem;"></legend>
+          <div class="choices-group" id="choices-container" role="radiogroup"></div>
+        </fieldset>
+
+        <div id="scenario-feedback" class="feedback-alert" style="display: none;" role="alert"></div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap;">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Points are recorded once per scenario to prevent inflation.</span>
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" class="btn btn-primary" id="btn-submit-answer" disabled>Submit Answer</button>
+            <button type="button" class="btn btn-outline" id="btn-next-scenario" style="display: none;">Next Scenario →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scenarios Completed Result Card -->
+      <section id="scenarios-final-card" class="dna-report-card" style="display: none; text-align: center;">
+        <div style="max-width: 650px; margin: 0 auto;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;" aria-hidden="true">🏆</div>
+          <h2 style="color: #FFFFFF; font-size: 1.85rem;">WhatIf Lab Scenarios Completed!</h2>
+          <p style="font-size: 1.05rem; color: var(--text-secondary);">You evaluated all 3 critical database crash and concurrency scenarios.</p>
+          <div style="background: var(--navy-800); border: 1px solid var(--border-teal); border-radius: var(--radius-lg); padding: 1.75rem; margin: 1.5rem 0;">
+            <span style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Your Engineering Score</span>
+            <div style="font-size: 3rem; font-weight: 900; color: var(--teal-400); margin: 0.25rem 0;" id="final-score-display">3 / 3</div>
+            <span id="final-score-message" style="font-size: 0.95rem; color: var(--text-secondary);">Flawless diagnostic ability!</span>
+          </div>
+          <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary" id="btn-try-again">↺ Try Scenarios Again</button>
+            <button type="button" class="btn btn-primary btn-lg" data-nav-target="errordna">Continue to ErrorDNA Diagnostic Quiz →</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 3: ERRORDNA (MISTAKE ANALYSIS)
+         ========================================================================= -->
+    <div id="view-errordna" class="app-view" role="region" aria-label="ErrorDNA Mistake Analysis">
+      <section class="page-header">
+        <nav class="breadcrumb-nav">
+          <button type="button" class="control-btn" data-nav-target="dashboard">← Back to Dashboard</button>
+          <span aria-hidden="true">/</span>
+          <span style="color: var(--teal-300);">Module 03: ErrorDNA</span>
+        </nav>
+        <div class="page-title-row">
+          <div class="page-title-group">
+            <h1>ErrorDNA: Mistake Analysis &amp; Revision Planner</h1>
+            <p>Pinpoint knowledge gaps across DBMS, Java, and Networking. Analyzes weak topics (&lt;60%) and recommends targeted revision.</p>
+          </div>
+          <div class="page-controls">
+            <span class="badge badge-teal" id="quiz-status-pill">9 Questions Ready</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz Section -->
+      <section id="quiz-section" class="quiz-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); flex-wrap: wrap; gap: 1rem;">
+          <h2 style="font-size: 1.35rem; margin: 0; color: #FFFFFF;">Diagnostic Assessment</h2>
+          <span style="font-size: 0.88rem; color: var(--text-secondary);">3 DBMS • 3 Java • 3 Networking</span>
+        </div>
+        <form id="dna-quiz-form">
+          <div id="questions-wrapper"></div>
+          <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary btn-lg" id="btn-analyze-dna">Analyze Mistakes &amp; Generate Report →</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Report Section -->
+      <section id="report-section" class="dna-report-card" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-subtle);">
+          <div>
+            <span class="badge badge-teal" style="margin-bottom: 0.5rem;">Diagnostic Report</span>
+            <h2 style="color: #FFFFFF; margin: 0;">ErrorDNA Knowledge Gap Analysis</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Calculated from your verified answer choices.</p>
+          </div>
+          <button type="button" class="btn btn-secondary" id="btn-retry-quiz">↺ Retry Quiz</button>
+        </div>
+
+        <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+          <div>
+            <span style="font-size: 0.82rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Overall Assessment Score</span>
+            <div style="font-size: 2.5rem; font-weight: 900; color: #FFFFFF; line-height: 1.1;" id="report-overall-score">0 / 9 (0%)</div>
+            <span id="report-overall-eval" style="font-size: 0.9rem; color: var(--teal-300);">Completed</span>
+          </div>
+          <div style="max-width: 400px; font-size: 0.88rem; color: var(--text-secondary);">
+            Topics with <strong>less than 60% accuracy</strong> are flagged for targeted revision in BoardBridge and Escape2Learn.
+          </div>
+        </div>
+
+        <h3 style="color: var(--teal-300); font-size: 1.15rem; margin-bottom: 1rem;">Topic-by-Topic Performance</h3>
+        <div class="dna-metrics-grid" id="topics-breakdown-grid"></div>
+
+        <div id="report-recommendations-box" style="margin: 2rem 0;"></div>
+
+        <h3 style="color: var(--teal-300); font-size: 1.15rem; margin-bottom: 1rem;">Detailed Question Breakdown</h3>
+        <div id="breakdown-questions-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+      </section>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 4: BOARDBRIDGE (ACCESSIBLE REVISION NOTES)
+         ========================================================================= -->
+    <div id="view-boardbridge" class="app-view" role="region" aria-label="BoardBridge Revision Notes">
+      <section class="page-header">
+        <nav class="breadcrumb-nav">
+          <button type="button" class="control-btn" data-nav-target="dashboard">← Back to Dashboard</button>
+          <span aria-hidden="true">/</span>
+          <span style="color: var(--teal-300);">Module 04: BoardBridge</span>
+        </nav>
+        <div class="page-title-row">
+          <div class="page-title-group">
+            <h1>BoardBridge: Accessible Revision Notes</h1>
+            <p>Organized, high-yield study notes with live search, text-to-speech, and deep linking from ErrorDNA.</p>
+          </div>
+          <div class="page-controls">
+            <div class="audio-control-bar" role="region" aria-label="Audio controls">
+              <button type="button" class="btn btn-primary btn-sm" id="btn-read-notes">
+                <span aria-hidden="true">🔊</span> Read Note
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-stop-notes" disabled>
+                <span aria-hidden="true">⏹</span> Stop
+              </button>
+              <span id="notes-speech-status" class="speech-status-indicator" role="status">Ready</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deep Link Banner -->
+      <div id="deeplink-banner" class="recommendation-banner" style="display: none; margin-bottom: 1.5rem;" role="status">
+        <div>
+          <strong id="deeplink-title" style="color: #FFFFFF;">Targeted Recommendation Applied</strong>
+          <span id="deeplink-msg" style="font-size: 0.88rem; color: var(--text-secondary);">Showing targeted revision notes based on ErrorDNA diagnosis.</span>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-dismiss-banner">Dismiss</button>
+      </div>
+
+      <div class="boardbridge-layout">
+        <aside class="topics-sidebar" aria-label="Topic Selection">
+          <input type="search" id="topic-search-input" class="search-box" placeholder="🔍 Search notes by keyword..." aria-label="Search notes">
+          <div style="display: flex; gap: 0.35rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+            <button type="button" class="control-btn active" data-subject-filter="all">All</button>
+            <button type="button" class="control-btn" data-subject-filter="dbms">DBMS</button>
+            <button type="button" class="control-btn" data-subject-filter="java">Java</button>
+            <button type="button" class="control-btn" data-subject-filter="networking">Net</button>
+          </div>
+          <ul class="topics-nav-list" id="topics-list" role="tablist"></ul>
+        </aside>
+
+        <article class="notes-main-card" id="note-display-card" role="tabpanel" aria-live="polite"></article>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 5: SILENTSIGNAL (ANONYMOUS DOUBTS & FEEDBACK)
+         ========================================================================= -->
+    <div id="view-silentsignal" class="app-view" role="region" aria-label="SilentSignal Anonymous Feedback">
+      <section class="page-header">
+        <nav class="breadcrumb-nav">
+          <button type="button" class="control-btn" data-nav-target="dashboard">← Back to Dashboard</button>
+          <span aria-hidden="true">/</span>
+          <span style="color: var(--teal-300);">Module 05: SilentSignal</span>
+        </nav>
+        <div class="page-title-row">
+          <div class="page-title-group">
+            <h1>SilentSignal: Anonymous Doubts &amp; Feedback</h1>
+            <p>A zero-pressure channel to report confusion, request examples, or flag accessibility needs.</p>
+          </div>
+          <div class="page-controls">
+            <button type="button" class="btn btn-danger btn-sm" id="btn-open-clear-feedback">Clear Demo Feedback</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="privacy-banner" role="region">
+        <div style="font-size: 1.5rem;" aria-hidden="true">🔒</div>
+        <div>
+          <strong style="display: block; color: #FFFFFF;">Demo data — stored only in this browser (localStorage).</strong>
+          <span style="font-size: 0.88rem; color: var(--teal-100);">
+            No names, student IDs, phone numbers, or email addresses are collected. Submissions stay strictly within your browser.
+          </span>
+        </div>
+      </div>
+
+      <div class="feedback-grid">
+        <section class="scenario-card" style="margin-bottom: 0;">
+          <h2 style="font-size: 1.35rem; color: #FFFFFF; margin-bottom: 0.35rem;">Log an Anonymous Doubt</h2>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem;">Select your subject and what is holding you back.</p>
+          <form id="silentsignal-form">
+            <div class="form-group">
+              <label for="feedback-topic" class="form-label">Select Subject / Topic *</label>
+              <select id="feedback-topic" class="form-select" required>
+                <option value="dbms">DBMS (Database Management Systems)</option>
+                <option value="java">Java (OOP, Collections &amp; Memory)</option>
+                <option value="networking">Computer Networking (OSI &amp; TCP/IP)</option>
+                <option value="general">General EduVerse Ecosystem</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="feedback-category" class="form-label">Nature of Confusion *</label>
+              <select id="feedback-category" class="form-select" required>
+                <option value="not-understood">I do not understand this topic.</option>
+                <option value="need-examples">I need more examples.</option>
+                <option value="too-difficult">The lesson is too difficult.</option>
+                <option value="accessibility-support">I need accessibility support.</option>
+                <option value="other">Other feedback.</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="feedback-message" class="form-label">Optional Note <span style="font-weight: 400; color: var(--text-muted);">(No personal info)</span></label>
+              <textarea id="feedback-message" class="form-textarea" rows="4" maxlength="300" placeholder="e.g. Can we have more step-by-step table examples for 3NF decomposition?"></textarea>
+              <div style="display: flex; justify-content: flex-end; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">
+                <span id="char-counter">0 / 300</span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Send Anonymous Signal →</button>
+          </form>
+          <div id="submission-confirmation" class="feedback-alert success" style="display: none; margin-top: 1.25rem;">
+            <strong>✓ Feedback Recorded Privately!</strong>
+            <p style="margin: 0; font-size: 0.88rem;">Tallied into the anonymous demo analytics dashboard below.</p>
+          </div>
+        </section>
+
+        <section class="scenario-card" style="margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h2 style="font-size: 1.35rem; color: #FFFFFF; margin: 0;">Aggregated Doubt Metrics</h2>
+            <span class="badge badge-teal" id="total-feedback-badge">3 Total Logged</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem;" id="topic-counts-grid"></div>
+          <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--teal-300); margin-bottom: 0.85rem;">Breakdown by Category</h3>
+            <div id="category-counts-list" style="display: flex; flex-direction: column; gap: 0.65rem;"></div>
+          </div>
+          <h3 style="font-size: 0.95rem; color: #FFFFFF; margin-bottom: 0.75rem;">Recent Anonymous Submissions (Demo Feed)</h3>
+          <div class="feedback-feed" id="feedback-entries-container" role="feed"></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 6: ZERONET SCHOLAR (OFFLINE LEARNING RESOURCES)
+         ========================================================================= -->
+    <div id="view-zeronet" class="app-view" role="region" aria-label="ZeroNet Scholar Offline Learning">
+      <section class="page-header">
+        <nav class="breadcrumb-nav">
+          <button type="button" class="control-btn" data-nav-target="dashboard">← Back to Dashboard</button>
+          <span aria-hidden="true">/</span>
+          <span style="color: var(--teal-300);">Module 06: ZeroNet Scholar</span>
+        </nav>
+        <div class="page-title-row">
+          <div class="page-title-group">
+            <h1>ZeroNet Scholar: Offline Learning Vault</h1>
+            <p>Prepare lessons before you lose connectivity. Verified CacheStorage ensures studying never stops during network outages.</p>
+          </div>
+          <div class="page-controls">
+            <span class="badge badge-teal" id="cached-count-pill">1 of 3 Cached</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="offline-demo-guide">
+        <h2 style="color: var(--teal-300); font-size: 1.25rem; margin-bottom: 0.5rem;">How ZeroNet Scholar Operates &amp; How to Test Offline Mode</h2>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Using the browser's <strong>CacheStorage API</strong> and <strong>Service Worker</strong>, learning packs are saved locally inside your browser sandbox.
+        </p>
+        <div class="offline-steps-list">
+          <div class="offline-step-card">
+            <div class="offline-step-num">1</div>
+            <strong style="color: #FFFFFF; display: block; font-size: 0.95rem; margin-bottom: 0.25rem;">Save for Offline</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Click "Save for Offline" on any lesson pack below.</span>
+          </div>
+          <div class="offline-step-card">
+            <div class="offline-step-num">2</div>
+            <strong style="color: #FFFFFF; display: block; font-size: 0.95rem; margin-bottom: 0.25rem;">Simulate Offline</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Open DevTools (F12) → Network Tab → Change throttling to <strong>Offline</strong>.</span>
+          </div>
+          <div class="offline-step-card">
+            <div class="offline-step-num">3</div>
+            <strong style="color: #FFFFFF; display: block; font-size: 0.95rem; margin-bottom: 0.25rem;">Verify Offline Reading</strong>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Notice the top indicator turns amber. Click "Read Lesson" — loads seamlessly!</span>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top: 2rem;">
+        <h2 style="font-size: 1.35rem; color: #FFFFFF; margin-bottom: 1.25rem;">Supported Offline Study Packs</h2>
+        <div class="lesson-cache-grid" id="lesson-cards-container"></div>
+      </section>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 7: ESCAPE2LEARN (GAMIFIED DBMS ESCAPE ROOM)
+         ========================================================================= -->
+    <div id="view-escape" class="app-view" role="region" aria-label="Escape2Learn Gamified Challenges">
+      <section class="page-header">
+        <nav class="breadcrumb-nav">
+          <button type="button" class="control-btn" data-nav-target="dashboard">← Back to Dashboard</button>
+          <span aria-hidden="true">/</span>
+          <span style="color: var(--teal-300);">Module 07: Escape2Learn</span>
+        </nav>
+        <div class="page-title-row">
+          <div class="page-title-group">
+            <h1>Escape2Learn: Gamified DBMS Escape Room</h1>
+            <p>Solve progressive engineering challenges to crack vault locks. Score &ge; 2/3 to unlock subsequent chambers.</p>
+          </div>
+          <div class="page-controls">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-room">↺ Reset Escape Room</button>
+          </div>
+        </div>
+      </section>
+
+      <nav class="escape-levels-bar" aria-label="Escape Room Chambers">
+        <button type="button" class="level-card-selector active" id="lvl-select-1" data-level="1">
+          <div class="level-badge">Level 01 • Foundational</div>
+          <strong style="color: #FFFFFF; font-size: 1.05rem; display: block;">The Schema Vault</strong>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="lvl-status-1">Unlocked • In Progress</span>
+        </button>
+        <button type="button" class="level-card-selector locked" id="lvl-select-2" data-level="2" disabled>
+          <div class="level-badge" style="color: var(--accent-amber);">Level 02 • Intermediate</div>
+          <strong style="color: #FFFFFF; font-size: 1.05rem; display: block;">The Concurrency Matrix</strong>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="lvl-status-2">🔒 Locked (Pass L1)</span>
+        </button>
+        <button type="button" class="level-card-selector locked" id="lvl-select-3" data-level="3" disabled>
+          <div class="level-badge" style="color: var(--accent-sky);">Level 03 • Advanced</div>
+          <strong style="color: #FFFFFF; font-size: 1.05rem; display: block;">The Optimizer Core</strong>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="lvl-status-3">🔒 Locked (Pass L2)</span>
+        </button>
+      </nav>
+
+      <section id="room-active-section" class="room-play-card">
+        <div class="room-story-box">
+          <span class="badge badge-teal" id="room-level-badge">Level 1 Active</span>
+          <h2 id="room-title" style="color: #FFFFFF; margin-top: 0.5rem; margin-bottom: 0.35rem;">The Schema Vault</h2>
+          <p id="room-story" style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;"></p>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <span id="question-progress-label" style="font-weight: 700; color: var(--teal-300);">Challenge 1 of 3</span>
+          <span id="level-score-label" class="badge badge-teal">Room Score: 0 / 3</span>
+        </div>
+
+        <fieldset style="border: none; padding: 0; margin: 0;">
+          <legend id="challenge-prompt" style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF; margin-bottom: 1.25rem;"></legend>
+          <div class="choices-group" id="challenge-choices-wrapper" role="radiogroup"></div>
+        </fieldset>
+
+        <div style="margin-top: 1.25rem;">
+          <button type="button" class="btn btn-outline btn-sm" id="btn-toggle-hint">💡 Need a Hint?</button>
+          <div id="hint-drawer" class="hint-drawer" role="note">
+            <strong style="color: var(--accent-sky); display: block; margin-bottom: 0.25rem;">Tactical Intel:</strong>
+            <span id="hint-text" style="font-size: 0.9rem; color: var(--text-primary);"></span>
+          </div>
+        </div>
+
+        <div id="challenge-feedback" class="feedback-alert" style="display: none; margin-top: 1.5rem;" role="alert"></div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.75rem;">
+          <button type="button" class="btn btn-primary" id="btn-submit-challenge" disabled>Crack Cipher Lock</button>
+          <button type="button" class="btn btn-outline" id="btn-next-challenge" style="display: none;">Next Challenge →</button>
+        </div>
+      </section>
+
+      <!-- Grand Victory Screen -->
+      <section id="grand-victory-card" class="dna-report-card" style="display: none; text-align: center; padding: 3rem 2rem;">
+        <div style="font-size: 4rem; margin-bottom: 0.5rem;" aria-hidden="true">👑</div>
+        <span class="badge badge-completed" style="font-size: 0.95rem; margin-bottom: 0.75rem;">Master Achievement Unlocked</span>
+        <h2 style="color: #FFFFFF; font-size: 2.25rem; margin-bottom: 0.75rem;">Grand Database Architect!</h2>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 620px; margin: 0 auto 2rem;">
+          You conquered all three chambers of Escape2Learn: mastering Schema keys, Concurrency 2PL locks, and B+ Tree Query Plan optimization!
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-secondary" id="btn-replay-game">↺ Replay Escape Room</button>
+          <button type="button" class="btn btn-primary btn-lg" data-nav-target="dashboard">Return to Ecosystem Dashboard →</button>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       MODALS & DIALOGS
+       ========================================================================= -->
+  <!-- Reset Progress Modal -->
+  <div id="reset-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-reset">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title-reset" class="modal-title" style="color: var(--accent-rose);">Reset Demo Progress?</h3>
+        <button type="button" class="control-btn" id="btn-close-modal" aria-label="Close dialog">✕</button>
+      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+        This will clear your local quiz scores, WhatIf Lab scenario results, unlocked escape room levels, and anonymous feedback demo data stored in this browser.
+      </p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-reset">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-reset">Confirm &amp; Reset All Progress</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clear Feedback Modal -->
+  <div id="clear-feedback-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-cf">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title-cf" class="modal-title" style="color: var(--accent-rose);">Clear Demo Feedback?</h3>
+        <button type="button" class="control-btn" id="btn-close-cf-modal" aria-label="Close dialog">✕</button>
+      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+        This will delete all anonymous demo feedback entries stored in your browser's localStorage.
+      </p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-cf">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-clear-feedback">Confirm &amp; Clear Feedback</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZeroNet Offline Reader Modal -->
+  <div id="reader-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="reader-title">
+    <div class="modal-box" style="max-width: 720px; max-height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div>
+          <span class="badge badge-teal" id="reader-offline-badge" style="margin-bottom: 0.35rem;">Available Offline</span>
+          <h3 id="reader-title" class="modal-title" style="color: #FFFFFF;">Offline Lesson Reader</h3>
+        </div>
+        <button type="button" class="control-btn" id="btn-close-reader" aria-label="Close reader">✕</button>
+      </div>
+      <div id="reader-content-body" style="overflow-y: auto; padding: 1rem 0; flex: 1; font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary);"></div>
+      <div class="modal-footer" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+        <button type="button" class="btn btn-secondary" id="btn-reader-close-action">Close Reader</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login / Signup Authentication Modal Dialog -->
+  <div id="auth-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <div>
+          <span class="badge badge-teal" style="margin-bottom: 0.35rem;">MySQL Integrated Account</span>
+          <h3 id="auth-modal-title" class="modal-title" style="color: #FFFFFF;">Student Portal Access</h3>
+        </div>
+        <button type="button" class="control-btn" id="btn-close-auth-modal" aria-label="Close dialog">✕</button>
+      </div>
+
+      <!-- Tab Switcher: Login vs Signup -->
+      <div class="auth-tabs-row" role="tablist">
+        <button type="button" class="auth-tab-btn active" id="tab-login" role="tab" aria-selected="true">
+          Sign In
+        </button>
+        <button type="button" class="auth-tab-btn" id="tab-signup" role="tab" aria-selected="false">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Alert Box -->
+      <div id="auth-alert" class="feedback-alert" style="display: none; margin-bottom: 1rem;" role="alert"></div>
+
+      <!-- Form 1: Sign In -->
+      <form id="form-login" class="auth-form-card">
+        <div class="form-group">
+          <label for="login-email" class="form-label">Email Address *</label>
+          <input type="email" id="login-email" class="form-select" placeholder="e.g. scholar@eduverse.org" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password" class="form-label">Password *</label>
+          <input type="password" id="login-password" class="form-select" placeholder="••••••••" required>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; font-size: 0.85rem;">
+          <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: var(--text-secondary);">
+            <input type="checkbox" id="login-remember" checked> Remember session
+          </label>
+          <span style="color: var(--teal-400); font-size: 0.82rem;">AES/SHA-256 Auth</span>
+        </div>
+
+        <!-- Quick 1-Click Demo Buttons for Hackathon Judges -->
+        <div style="background: var(--navy-800); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.75rem; margin-bottom: 1.25rem;">
+          <span style="font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 0.4rem;">
+            1-Click Demo Fill for Evaluators:
+          </span>
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" class="control-btn btn-sm" id="btn-fill-demo-student">
+              Student: Aanya
+            </button>
+            <button type="button" class="control-btn btn-sm" id="btn-fill-demo-judge">
+              Evaluator: Judge
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="btn-submit-login">
+          Sign In to EduVerse →
+        </button>
+      </form>
+
+      <!-- Form 2: Create Account -->
+      <form id="form-signup" class="auth-form-card" style="display: none;">
+        <div class="form-group">
+          <label for="signup-name" class="form-label">Full Name *</label>
+          <input type="text" id="signup-name" class="form-select" placeholder="e.g. Arjun Patel" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-email" class="form-label">Email Address *</label>
+          <input type="email" id="signup-email" class="form-select" placeholder="e.g. arjun@university.edu" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-password" class="form-label">Password *</label>
+          <input type="password" id="signup-password" class="form-select" placeholder="At least 6 characters" minlength="6" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-role" class="form-label">Learning Role</label>
+          <select id="signup-role" class="form-select">
+            <option value="student">Student / Learner</option>
+            <option value="evaluator">Hackathon Evaluator / Judge</option>
+            <option value="educator">Educator / Teacher</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem;" id="btn-submit-signup">
+          Register &amp; Save in MySQL →
+        </button>
+      </form>
+
+      <!-- Database Sync Indicator Bar -->
+      <div class="db-status-bar">
+        <span class="db-status-dot" id="auth-db-dot"></span>
+        <span id="auth-db-status-text">MySQL Database: Sync Ready (eduverse_db)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-element" class="toast-notice" role="status" aria-live="polite">
+    <span aria-hidden="true">✓</span>
+    <span id="toast-message">Demo progress reset successfully.</span>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-content">
+      <div>
+        <strong style="color: #FFFFFF; display: block; margin-bottom: 0.25rem;">EduVerse Smart Learning Ecosystem</strong>
+        <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">
+          Unified Single-Link Prototype for Hackathon 2026 • MySQL Relational Database Backend.
+        </p>
+      </div>
+      <div class="footer-links">
+        <button type="button" class="control-btn" data-nav-target="dashboard">Dashboard</button>
+        <button type="button" class="control-btn" data-nav-target="silentsignal">Report Issue</button>
+        <button type="button" class="control-btn" data-nav-target="zeronet">Offline Vault</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Unified Scripts Stack -->
+  <script src="js/progress.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/mindshift.js"></script>
+  <script src="js/whatif-lab.js"></script>
+  <script src="js/errordna.js"></script>
+  <script src="js/boardbridge.js"></script>
+  <script src="js/silentsignal.js"></script>
+  <script src="js/zeronet-scholar.js"></script>
+  <script src="js/escape2learn.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
